@@ -64,8 +64,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Contracts\INumberConverter.cs" />
     <Compile Include="Models\ParametersModel.cs" />
-    <Compile Include="Models\Precision.cs" />
+    <Compile Include="Models\PrecisionModel.cs" />
+    <Compile Include="Services\NumberConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

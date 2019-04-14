@@ -12,6 +12,8 @@ namespace GeneticAlgorithmCalculator.Models
 
         public float RangeTo { get; set; }
 
+        public PrecisionModel Precision { get; set; }
+
         public int PopulationSize { get; set; }
 
         public int NumberOfGenerations { get; set; }

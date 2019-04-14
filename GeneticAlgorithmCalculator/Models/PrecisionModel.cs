@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCalculator.Models
 {
-    public class Precision
+    public class PrecisionModel
     {
         public string Label { get; set; }
 
-        public float Value { get; set; }
+        public double Value { get; set; }
     }
 }
