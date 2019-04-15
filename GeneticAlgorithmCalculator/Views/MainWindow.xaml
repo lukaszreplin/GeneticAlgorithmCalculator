@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="Genetic Algotithm Calculator" Height="608" Width="811">
+        Title="Genetic Algorithm Calculator" Height="608" Width="811">
     <Grid>
-        <Button Content="Process" FontWeight="Bold" FontSize="14" HorizontalAlignment="Left" Margin="674,523,0,0" VerticalAlignment="Top" Width="108" Height="28"/>
+        <Button Command="{Binding ProcessCommand}" Content="Process" FontWeight="Bold" FontSize="14" HorizontalAlignment="Left" Margin="674,523,0,0" VerticalAlignment="Top" Width="108" Height="28"/>
         <GroupBox Header="Parameters" HorizontalAlignment="Left" Height="117" Margin="10,10,0,0" VerticalAlignment="Top" Width="772">
             <Grid>
                 <Label Content="Range" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
@@ -24,7 +24,28 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Results" HorizontalAlignment="Left" Height="386" Margin="10,132,0,0" VerticalAlignment="Top" Width="772"/>
+        <GroupBox Header="Results" HorizontalAlignment="Left" Height="386" Margin="10,132,0,0" VerticalAlignment="Top" Width="772">
+            <TabControl HorizontalAlignment="Left" Height="352" Margin="0,10,-2,0" VerticalAlignment="Top" Width="762">
+                <TabItem Header="First step">
+                    <Grid Background="#FFE5E5E5">
+                        <DataGrid HorizontalAlignment="Left" Height="324" VerticalAlignment="Top" Width="756" ItemsSource="{Binding FirstStepModels}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Lp" MinWidth="35" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding RealValue}"/>
+                                <DataGridTextColumn Header="x binary" MinWidth="120" Binding="{Binding BinaryValue}"/>
+                                <DataGridTextColumn Header="x int" MinWidth="80" Binding="{Binding IntValue}"/>
+                                <DataGridTextColumn Header="x binary" MinWidth="120" Binding="{Binding Binary2Value}"/>
+                                <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding Real2Value}"/>
+                                <DataGridTextColumn Header="Value of f(x)" MinWidth="80" Binding="{Binding FunctionResult}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Second step">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+        </GroupBox>
 
     </Grid>
 </Window>
