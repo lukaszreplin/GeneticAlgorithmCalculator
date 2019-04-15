@@ -15,22 +15,34 @@ namespace GeneticAlgorithmCalculator.Services
 
         public int BinaryToIntConvert(string input)
         {
-            throw new NotImplementedException();
+            return Convert.ToInt32(input, 2);
         }
 
         public string IntToBinaryConvert(int input)
         {
-            throw new NotImplementedException();
+            var binaryValue = Convert.ToString(input, 2);
+            if (binaryValue.Length < _individualResolution)
+            {
+                var builder = new StringBuilder();
+                for (int i = 0; i < _individualResolution - binaryValue.Length; i++)
+                {
+                    builder.Append("0");
+                }
+                builder.Append(binaryValue);
+                return builder.ToString();
+            }
+            return binaryValue;
         }
 
         public double IntToRealConvert(int input)
         {
-            throw new NotImplementedException();
+            return (input * (_parameters.RangeTo - _parameters.RangeFrom) / (Math.Pow(2, _individualResolution) - 1)) + _parameters.RangeFrom;
         }
 
         public int RealToIntConvert(double input)
         {
-            throw new NotImplementedException();
+            return Convert.ToInt32(Math.Floor((1 / (_parameters.RangeTo - _parameters.RangeFrom)) * 
+                (input - _parameters.RangeFrom) * (Math.Pow(2, _individualResolution) - 1)));
         }
 
         public void SetParameters(ParametersModel model)
