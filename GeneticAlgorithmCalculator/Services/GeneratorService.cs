@@ -33,6 +33,7 @@ namespace GeneticAlgorithmCalculator.Services
                 data.BinaryValue = _converter.IntToBinaryConvert(data.IntValue);
                 data.Int2Value = _converter.BinaryToIntConvert(data.BinaryValue);
                 data.Real2Value = _converter.IntToRealConvert(data.Int2Value);
+                data.FunctionResult = (data.RealValue % 1) * (Math.Cos(20 * Math.PI * data.RealValue) - Math.Sin(data.RealValue));
             }
             return model;
         }
