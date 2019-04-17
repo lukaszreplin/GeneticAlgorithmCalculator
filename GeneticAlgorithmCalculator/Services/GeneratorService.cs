@@ -10,10 +10,38 @@ namespace GeneticAlgorithmCalculator.Services
 {
     public class GeneratorService : IGeneratorService
     {
-        public List<AlgorithmFirstStepModel> GenerateFirstStep(ParametersModel parameters)
+        private ParametersModel _parameters;
+        private INumberConverter _converter;
+
+        public GeneratorService(INumberConverter converter)
+        {
+            _converter = converter;
+        }
+
+        public List<AlgorithmFirstStepModel> GenerateFirstStep()
         {
             var model = new List<AlgorithmFirstStepModel>();
-            var generatedNumbers = GetRandomNumbers(parameters.RangeFrom, parameters.RangeTo, parameters.PopulationSize, parameters.Precision.Value);
+            _converter.SetParameters(_parameters);
+            var generatedNumbers = GetRandomNumbers(_parameters.RangeFrom, _parameters.RangeTo, _parameters.PopulationSize, _parameters.Precision.IntValue);
+            for (int i = 1; i <= _parameters.PopulationSize; i++)
+            {
+                model.Add(new AlgorithmFirstStepModel() { Id = i, RealValue = generatedNumbers[i - 1] });
+            }
+            foreach (AlgorithmFirstStepModel data in model)
+            {
+                data.IntValue = _converter.RealToIntConvert(data.RealValue);
+                data.BinaryValue = _converter.IntToBinaryConvert(data.IntValue);
+                data.Int2Value = _converter.BinaryToIntConvert(data.BinaryValue);
+                data.Real2Value = _converter.IntToRealConvert(data.Int2Value);
+            }
+            return model;
+        }
+
+        public DataModel GetData(ParametersModel parameters)
+        {
+            _parameters = parameters;
+            var model = new DataModel();
+            model.FirstStepModels = GenerateFirstStep();
             return model;
         }
 

@@ -20,6 +20,7 @@ namespace GeneticAlgorithmCalculator
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IGeneratorService, GeneratorService>();
+            containerRegistry.Register<INumberConverter, NumberConverter>();
         }
     }
 }

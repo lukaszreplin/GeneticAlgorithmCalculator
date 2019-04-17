@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgorithmCalculator.Models
 {
-    public class PrecisionModel
+    public class DataModel
     {
-        public string Label { get; set; }
-
-        public double Value { get; set; }
-
-        public int IntValue { get; set; }
+        public List<AlgorithmFirstStepModel> FirstStepModels { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeneticAlgorithmCalculator.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace GeneticAlgorithmCalculator.Contracts
         string IntToBinaryConvert(int input);
         int BinaryToIntConvert(string input);
         double IntToRealConvert(int input);
+        void SetParameters(ParametersModel model);
     }
 }

@@ -48,6 +48,7 @@ namespace GeneticAlgorithmCalculator.Services
         public void SetParameters(ParametersModel model)
         {
             _parameters = model;
+            SetIndividualResolution();
         }
 
         private void SetIndividualResolution()

@@ -25,11 +25,11 @@ namespace GeneticAlgorithmCalculator.ViewModels
             set { SetProperty(ref _precisions, value); }
         }
 
-        private ICollection<AlgorithmFirstStepModel> firstStepModels;
-        public ICollection<AlgorithmFirstStepModel> FirstStepModels
+        private DataModel dataModel;
+        public DataModel DataModel
         {
-            get { return firstStepModels; }
-            set { SetProperty(ref firstStepModels, value); }
+            get { return dataModel; }
+            set { SetProperty(ref dataModel, value); }
         }
 
         public MainWindowViewModel(IGeneratorService generatorService)
@@ -44,18 +44,17 @@ namespace GeneticAlgorithmCalculator.ViewModels
 
         void ExecuteProcessCommand()
         {
-            FirstStepModels = _generator.GenerateFirstStep(Parameters);
+            DataModel = _generator.GetData(Parameters);
         }
 
         private void InitializeData()
         {
-            FirstStepModels = new List<AlgorithmFirstStepModel>();
             Parameters = new ParametersModel();
             Precisions = new List<PrecisionModel>()
             {
-                new PrecisionModel() { Label = "0,001", Value = 3 },
-                new PrecisionModel() { Label = "0,01", Value = 2 },
-                new PrecisionModel() { Label = "0,1", Value = 1 }
+                new PrecisionModel() { Label = "0,001", Value = 0.001, IntValue = 3 },
+                new PrecisionModel() { Label = "0,01", Value = 0.01, IntValue = 2 },
+                new PrecisionModel() { Label = "0,1", Value = 0.1, IntValue = 1 }
             };
         }
     }

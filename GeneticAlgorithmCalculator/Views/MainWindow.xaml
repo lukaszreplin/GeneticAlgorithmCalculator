@@ -28,13 +28,13 @@
             <TabControl HorizontalAlignment="Left" Height="352" Margin="0,10,-2,0" VerticalAlignment="Top" Width="762">
                 <TabItem Header="First step">
                     <Grid Background="#FFE5E5E5">
-                        <DataGrid HorizontalAlignment="Left" Height="324" VerticalAlignment="Top" Width="756" ItemsSource="{Binding FirstStepModels}">
+                        <DataGrid HorizontalAlignment="Left" Height="324" VerticalAlignment="Top" Width="756" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding DataModel.FirstStepModels}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Lp" MinWidth="35" Binding="{Binding Id}"/>
                                 <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding RealValue}"/>
-                                <DataGridTextColumn Header="x binary" MinWidth="120" Binding="{Binding BinaryValue}"/>
                                 <DataGridTextColumn Header="x int" MinWidth="80" Binding="{Binding IntValue}"/>
-                                <DataGridTextColumn Header="x binary" MinWidth="120" Binding="{Binding Binary2Value}"/>
+                                <DataGridTextColumn Header="x binary" MinWidth="120" Binding="{Binding BinaryValue}"/>
+                                <DataGridTextColumn Header="x int" MinWidth="120" Binding="{Binding Int2Value}"/>
                                 <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding Real2Value}"/>
                                 <DataGridTextColumn Header="Value of f(x)" MinWidth="80" Binding="{Binding FunctionResult}"/>
                             </DataGrid.Columns>
