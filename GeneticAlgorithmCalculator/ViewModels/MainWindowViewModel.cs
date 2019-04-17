@@ -1,4 +1,5 @@
 ﻿using GeneticAlgorithmCalculator.Contracts;
+using GeneticAlgorithmCalculator.Extensions;
 using GeneticAlgorithmCalculator.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -10,6 +11,7 @@ namespace GeneticAlgorithmCalculator.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private IGeneratorService _generator;
+        private DataModel model;
 
         private ParametersModel _parameters;
         public ParametersModel Parameters
@@ -25,11 +27,24 @@ namespace GeneticAlgorithmCalculator.ViewModels
             set { SetProperty(ref _precisions, value); }
         }
 
-        private DataModel dataModel;
-        public DataModel DataModel
+        private ObservableCollection<AlgorithmFirstStepModel> firstStepDataModel;
+        public ObservableCollection<AlgorithmFirstStepModel> FirstStepDataModel
         {
-            get { return dataModel; }
-            set { SetProperty(ref dataModel, value); }
+            get { return firstStepDataModel; }
+            set
+            {
+                SetProperty(ref firstStepDataModel, value);
+            }
+        }
+
+        private ObservableCollection<AlgorithmSecondStepModel> secondStepDataModel;
+        public ObservableCollection<AlgorithmSecondStepModel> SecondStepDataModel
+        {
+            get { return secondStepDataModel; }
+            set
+            {
+                SetProperty(ref secondStepDataModel, value);
+            }
         }
 
         public MainWindowViewModel(IGeneratorService generatorService)
@@ -44,7 +59,9 @@ namespace GeneticAlgorithmCalculator.ViewModels
 
         void ExecuteProcessCommand()
         {
-            DataModel = _generator.GetData(Parameters);
+            model = _generator.GetData(Parameters);
+            FirstStepDataModel = model.FirstStepModels.ToObservableCollection();
+            SecondStepDataModel = model.SecondStepModels.ToObservableCollection();
         }
 
         private void InitializeData()
