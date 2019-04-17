@@ -42,7 +42,20 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Second step">
-                    <Grid Background="#FFE5E5E5"/>
+                    <Grid Background="#FFE5E5E5">
+                        <DataGrid HorizontalAlignment="Left" Height="324" VerticalAlignment="Top" Width="756" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding DataModel.SecondStepModels}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Lp" MinWidth="35" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding RealValue}"/>
+                                <DataGridTextColumn Header="Value of f(x)" MinWidth="80" Binding="{Binding FunctionResult}"/>
+                                <DataGridTextColumn Header="Fitness func. result" MinWidth="80" Binding="{Binding FitnessFunctionResult}"/>
+                                <DataGridTextColumn Header="Probability" MinWidth="80" Binding="{Binding Probability}"/>
+                                <DataGridTextColumn Header="Distribution" MinWidth="80" Binding="{Binding DistributionFunctionResult}"/>
+                                <DataGridTextColumn Header="Drawn value" MinWidth="80" Binding="{Binding DrawnValue}"/>
+                                <DataGridTextColumn Header="x real selected" MinWidth="80" Binding="{Binding AfterSelectionValue}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </GroupBox>

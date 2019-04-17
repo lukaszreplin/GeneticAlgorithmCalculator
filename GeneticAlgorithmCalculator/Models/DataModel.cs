@@ -9,5 +9,7 @@ namespace GeneticAlgorithmCalculator.Models
     public class DataModel
     {
         public List<AlgorithmFirstStepModel> FirstStepModels { get; set; }
+
+        public List<AlgorithmSecondStepModel> SecondStepModels { get; set; }
     }
 }

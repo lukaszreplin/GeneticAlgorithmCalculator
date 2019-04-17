@@ -50,6 +50,9 @@ namespace GeneticAlgorithmCalculator.ViewModels
         private void InitializeData()
         {
             Parameters = new ParametersModel();
+            Parameters.RangeFrom = -4;
+            Parameters.RangeTo = 12;
+            Parameters.PopulationSize = 10;
             Precisions = new List<PrecisionModel>()
             {
                 new PrecisionModel() { Label = "0,001", Value = 0.001, IntValue = 3 },
