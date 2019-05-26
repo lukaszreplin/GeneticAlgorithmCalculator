@@ -36,12 +36,13 @@ namespace GeneticAlgorithmCalculator.Services
 
         public double IntToRealConvert(int input)
         {
-            return (input * (_parameters.RangeTo - _parameters.RangeFrom) / (Math.Pow(2, _individualResolution) - 1)) + _parameters.RangeFrom;
+            return Math.Round((input * (_parameters.RangeTo - _parameters.RangeFrom) / (Math.Pow(2, _individualResolution) - 1)) 
+                + _parameters.RangeFrom, _parameters.Precision.IntValue);
         }
 
         public int RealToIntConvert(double input)
         {
-            return Convert.ToInt32(Math.Floor((1 / (_parameters.RangeTo - _parameters.RangeFrom)) * 
+            return Convert.ToInt32(Math.Round((1 / (_parameters.RangeTo - _parameters.RangeFrom)) * 
                 (input - _parameters.RangeFrom) * (Math.Pow(2, _individualResolution) - 1)));
         }
 
