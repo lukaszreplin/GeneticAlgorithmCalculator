@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="Genetic Algorithm Calculator" Height="608" Width="811">
+        Title="Genetic Algorithm Calculator" Height="608" Width="1099"
+        ResizeMode="CanMinimize">
     <Grid>
-        <Button Command="{Binding ProcessCommand}" Content="Process" FontWeight="Bold" FontSize="14" HorizontalAlignment="Left" Margin="674,523,0,0" VerticalAlignment="Top" Width="108" Height="28"/>
-        <GroupBox Header="Parameters" HorizontalAlignment="Left" Height="117" Margin="10,10,0,0" VerticalAlignment="Top" Width="772">
+        <Button Command="{Binding ProcessCommand}" Content="Process" FontWeight="Bold" FontSize="14" Margin="0,518,21,0" VerticalAlignment="Top" Height="28" HorizontalAlignment="Right" Width="108"/>
+        <GroupBox Header="Parameters" Height="117" Margin="10,10,21,0" VerticalAlignment="Top">
             <Grid>
                 <Label Content="Range" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Label Content="&lt;" HorizontalAlignment="Left" Margin="53,10,0,0" VerticalAlignment="Top"/>
@@ -21,14 +22,20 @@
                 <TextBox PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="547,14,0,0" TextWrapping="Wrap" Text="{Binding Parameters.PopulationSize}" VerticalAlignment="Top" Width="120"/>
                 <TextBox PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="149,53,0,0" TextWrapping="Wrap" Text="{Binding Parameters.NumberOfGenerations}" VerticalAlignment="Top" Width="65"/>
                 <Label Content="Number of generations" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="134"/>
+                <TextBox Text="{Binding Parameters.CrossoverProbability}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="346,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.185,0.522"/>
+                <Label Content="Crossover probability" HorizontalAlignment="Left" Margin="219,49,0,0" VerticalAlignment="Top" Width="122"/>
+                <TextBox PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="547,52,0,0" TextWrapping="Wrap" Text="{Binding Parameters.MutationProbability}" VerticalAlignment="Top" Width="65"/>
+                <Label Content="Mutation probability" HorizontalAlignment="Left" Margin="416,49,0,0" VerticalAlignment="Top" Width="126"/>
+                <Label Content="Elitism level" HorizontalAlignment="Left" Margin="617,49,0,0" VerticalAlignment="Top" Width="62"/>
+                <TextBox PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="684,52,0,0" TextWrapping="Wrap" Text="{Binding Parameters.ElitismLevel}" VerticalAlignment="Top" Width="65"/>
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Results" HorizontalAlignment="Left" Height="386" Margin="10,132,0,0" VerticalAlignment="Top" Width="772">
-            <TabControl HorizontalAlignment="Left" Height="352" Margin="0,10,-2,0" VerticalAlignment="Top" Width="762">
-                <TabItem Header="First step">
+        <GroupBox Header="Results" Height="386" Margin="10,132,21,0" VerticalAlignment="Top">
+            <TabControl Height="352" Margin="0,10,-2,0" VerticalAlignment="Top" SelectedIndex="2">
+                <TabItem Header="Convert types">
                     <Grid Background="#FFE5E5E5">
-                        <DataGrid HorizontalAlignment="Left" Height="324" VerticalAlignment="Top" Width="756" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding FirstStepDataModel}">
+                        <DataGrid Height="324" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding FirstStepDataModel}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Lp" MinWidth="35" Binding="{Binding Id}"/>
                                 <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding RealValue}"/>
@@ -41,9 +48,9 @@
                         </DataGrid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Second step">
+                <TabItem Header="First selection">
                     <Grid Background="#FFE5E5E5">
-                        <DataGrid HorizontalAlignment="Left" Height="324" VerticalAlignment="Top" Width="756" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding SecondStepDataModel}">
+                        <DataGrid Height="324" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding SecondStepDataModel}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Lp" MinWidth="35" Binding="{Binding Id}"/>
                                 <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding RealValue}"/>
@@ -53,6 +60,29 @@
                                 <DataGridTextColumn Header="Distribution" MinWidth="80" Binding="{Binding DistributionFunctionResult}"/>
                                 <DataGridTextColumn Header="Drawn value" MinWidth="80" Binding="{Binding DrawnValue}"/>
                                 <DataGridTextColumn Header="x real selected" MinWidth="80" Binding="{Binding AfterSelectionValue}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Crossover &amp; mutation">
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="14*"/>
+                            <ColumnDefinition Width="237*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Height="324" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ThirdStepDataModel}" Grid.ColumnSpan="2">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Lp" MinWidth="35" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="x real" MinWidth="60" Binding="{Binding RealValue}"/>
+                                <DataGridTextColumn Header="x bin" MinWidth="80" Binding="{Binding BinaryValue}"/>
+                                <DataGridTextColumn Header="Choosen parents" MinWidth="80" Binding="{Binding ChoosenParents}"/>
+                                <DataGridTextColumn Header="Cut point" MinWidth="50" Binding="{Binding CutPoint}"/>
+                                <DataGridTextColumn Header="Children" MinWidth="80" Binding="{Binding Children}"/>
+                                <DataGridTextColumn Header="Gen. generation" MinWidth="80" Binding="{Binding GenerativeGeneration}"/>
+                                <DataGridTextColumn Header="Mut. pos." MinWidth="65" Binding="{Binding MutationPositions}"/>
+                                <DataGridTextColumn Header="Matated" MinWidth="60" Binding="{Binding MutatedGeneration}"/>
+                                <DataGridTextColumn Header="x real" MinWidth="80" Binding="{Binding RealValue2}"/>
+                                <DataGridTextColumn Header="Value of f(x)" MinWidth="80" Binding="{Binding FunctionResult}"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

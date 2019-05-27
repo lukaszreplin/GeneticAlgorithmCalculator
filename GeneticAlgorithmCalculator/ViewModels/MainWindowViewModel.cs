@@ -66,10 +66,16 @@ namespace GeneticAlgorithmCalculator.ViewModels
 
         private void InitializeData()
         {
-            Parameters = new ParametersModel();
-            Parameters.RangeFrom = -4;
-            Parameters.RangeTo = 12;
-            Parameters.PopulationSize = 10;
+            Parameters = new ParametersModel
+            {
+                RangeFrom = -4,
+                RangeTo = 12,
+                PopulationSize = 10,
+                NumberOfGenerations = 1,
+                CrossoverProbability = 0.75f,
+                MutationProbability = 0.005f,
+                ElitismLevel = 0
+            };
             Precisions = new List<PrecisionModel>()
             {
                 new PrecisionModel() { Label = "0,001", Value = 0.001, IntValue = 3 },

@@ -16,6 +16,12 @@ namespace GeneticAlgorithmCalculator.Models
 
         public int PopulationSize { get; set; }
 
+        public float CrossoverProbability { get; set; }
+
+        public float MutationProbability { get; set; }
+
+        public int ElitismLevel { get; set; }
+
         public int NumberOfGenerations { get; set; }
     }
 }
