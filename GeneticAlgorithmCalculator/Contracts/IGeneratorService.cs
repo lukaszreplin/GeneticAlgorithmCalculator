@@ -13,5 +13,7 @@ namespace GeneticAlgorithmCalculator.Contracts
         List<AlgorithmFirstStepModel> GenerateFirstStep();
 
         List<AlgorithmSecondStepModel> GenerateSecondStep();
+
+        List<AlgorithmThirdStepModel> GenerateThirdStep();
     }
 }

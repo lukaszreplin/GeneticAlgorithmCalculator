@@ -47,6 +47,16 @@ namespace GeneticAlgorithmCalculator.ViewModels
             }
         }
 
+        private ObservableCollection<AlgorithmThirdStepModel> thirdStepDataModel;
+        public ObservableCollection<AlgorithmThirdStepModel> ThirdStepDataModel
+        {
+            get { return thirdStepDataModel; }
+            set
+            {
+                SetProperty(ref thirdStepDataModel, value);
+            }
+        }
+
         public MainWindowViewModel(IGeneratorService generatorService)
         {
             _generator = generatorService;
@@ -62,6 +72,7 @@ namespace GeneticAlgorithmCalculator.ViewModels
             model = _generator.GetData(Parameters);
             FirstStepDataModel = model.FirstStepModels.ToObservableCollection();
             SecondStepDataModel = model.SecondStepModels.ToObservableCollection();
+            ThirdStepDataModel = model.ThirdStepModels.ToObservableCollection();
         }
 
         private void InitializeData()
