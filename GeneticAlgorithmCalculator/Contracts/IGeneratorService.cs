@@ -12,7 +12,7 @@ namespace GeneticAlgorithmCalculator.Contracts
         DataModel GetData(ParametersModel parameters);
         List<AlgorithmFirstStepModel> GenerateFirstStep();
 
-        List<AlgorithmSecondStepModel> GenerateSecondStep();
+        List<AlgorithmSecondStepModel> GenerateSecondStep(bool firstSelection);
 
         List<AlgorithmThirdStepModel> GenerateThirdStep();
     }

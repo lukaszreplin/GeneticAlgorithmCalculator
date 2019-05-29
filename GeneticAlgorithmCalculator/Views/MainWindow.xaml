@@ -24,7 +24,7 @@
                           SelectedIndex="0" HorizontalAlignment="Left" Margin="316,14,0,0" VerticalAlignment="Top" Width="120"/>
                 <Label Content="Population size" HorizontalAlignment="Left" Margin="452,11,0,0" VerticalAlignment="Top"/>
                 <TextBox PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="547,14,0,0" TextWrapping="Wrap" Text="{Binding Parameters.PopulationSize}" VerticalAlignment="Top" Width="120"/>
-                <TextBox IsEnabled="False" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="149,53,0,0" TextWrapping="Wrap" Text="{Binding Parameters.NumberOfGenerations}" VerticalAlignment="Top" Width="65"/>
+                <TextBox PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="149,53,0,0" TextWrapping="Wrap" Text="{Binding Parameters.NumberOfGenerations}" VerticalAlignment="Top" Width="65"/>
                 <Label Content="Number of generations" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="134"/>
                 <TextBox Text="{Binding Parameters.CrossoverProbability}" PreviewTextInput="DecimalValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="346,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.185,0.522"/>
                 <Label Content="Crossover probability" HorizontalAlignment="Left" Margin="219,49,0,0" VerticalAlignment="Top" Width="122"/>

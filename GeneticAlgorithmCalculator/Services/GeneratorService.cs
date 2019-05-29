@@ -41,7 +41,7 @@ namespace GeneticAlgorithmCalculator.Services
             return model;
         }
 
-        public List<AlgorithmSecondStepModel> GenerateSecondStep()
+        public List<AlgorithmSecondStepModel> GenerateSecondStep(bool firstSelection = true)
         {
             var model = new List<AlgorithmSecondStepModel>();
             for (int i = 1; i <= _parameters.PopulationSize; i++)
@@ -49,8 +49,10 @@ namespace GeneticAlgorithmCalculator.Services
                 model.Add(new AlgorithmSecondStepModel()
                 {
                     Id = i,
-                    RealValue = _model.FirstStepModels[i - 1].RealValue,
-                    FunctionResult = _model.FirstStepModels[i - 1].FunctionResult,
+                    RealValue = (firstSelection) ? 
+                    _model.FirstStepModels[i - 1].RealValue : _model.ThirdStepModels[i-1].RealValue2,
+                    FunctionResult = (firstSelection) ? 
+                    _model.FirstStepModels[i - 1].FunctionResult : _model.ThirdStepModels[i - 1].FunctionResult,
                     FitnessFunctionResult = (_model.FirstStepModels[i - 1].FunctionResult - GetMinValue()) + _parameters.Precision.IntValue,
                 });
             }
@@ -188,8 +190,11 @@ namespace GeneticAlgorithmCalculator.Services
         {
             _parameters = parameters;
             _model.FirstStepModels = GenerateFirstStep();
-            _model.SecondStepModels = GenerateSecondStep();
-            _model.ThirdStepModels = GenerateThirdStep();
+            for (int i = 1; i <= _parameters.NumberOfGenerations; i++)
+            {
+                _model.SecondStepModels = GenerateSecondStep(i == 1);
+                _model.ThirdStepModels = GenerateThirdStep();
+            }
             return _model;
         }
 
