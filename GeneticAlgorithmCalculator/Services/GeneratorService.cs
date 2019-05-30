@@ -53,7 +53,7 @@ namespace GeneticAlgorithmCalculator.Services
                     _model.FirstStepModels[i - 1].RealValue : _model.ThirdStepModels[i-1].RealValue2,
                     FunctionResult = (firstSelection) ? 
                     _model.FirstStepModels[i - 1].FunctionResult : _model.ThirdStepModels[i - 1].FunctionResult,
-                    FitnessFunctionResult = (_model.FirstStepModels[i - 1].FunctionResult - GetMinValue()) + _parameters.Precision.IntValue,
+                    FitnessFunctionResult = (_model.FirstStepModels[i - 1].FunctionResult - GetMinValue()) + _parameters.Precision.Value,
                 });
             }
             if (firstSelection)
