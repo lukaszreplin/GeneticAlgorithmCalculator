@@ -56,6 +56,29 @@ namespace GeneticAlgorithmCalculator.Services
                     FitnessFunctionResult = (_model.FirstStepModels[i - 1].FunctionResult - GetMinValue()) + _parameters.Precision.IntValue,
                 });
             }
+            if (firstSelection)
+            {
+                _model.Elite = model.OrderByDescending(_ => _.FunctionResult)
+                .Take(_parameters.ElitismLevel).Select(_ => _.RealValue).ToList();
+            }
+            else
+            {
+                var tempElite = _model.Elite;
+                _model.Elite = null;
+                foreach (var eliteItem in tempElite.OrderBy(_ => _).ToList())
+                {
+                    var funcResult = GetFunctionResult(eliteItem);
+                    if (model.Any(_ => _.FunctionResult != funcResult))
+                    {
+                        var idMin = model.OrderBy(_ => _.FunctionResult).First().Id;
+                        model[idMin - 1].RealValue = eliteItem;
+                        model[idMin - 1].FunctionResult = funcResult;
+                    }
+                }
+                _model.Elite = model.OrderByDescending(_ => _.FunctionResult)
+                .Take(_parameters.ElitismLevel).Select(_ => _.RealValue).ToList();
+            }
+            
             var fitnessSum = GetSumOfFitness(model);
             for (int i = 1; i <= _parameters.PopulationSize; i++)
             {
@@ -140,8 +163,8 @@ namespace GeneticAlgorithmCalculator.Services
                             var firstPart2 = item2.ChoosenParents.Substring(0, item2.CutPoint);
                             var secondPart1 = item.ChoosenParents.Substring(item.CutPoint, item.ChoosenParents.Length - item.CutPoint);
                             var secondPart2 = item2.ChoosenParents.Substring(item2.CutPoint, item2.ChoosenParents.Length - item2.CutPoint);
-                            item.Children = secondPart2 + firstPart1;
-                            item2.Children = secondPart1 + firstPart2;
+                            item.Children = secondPart1 + firstPart2;
+                            item2.Children = secondPart2 + firstPart1;
                             break;
                         }
                     }
