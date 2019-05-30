@@ -209,14 +209,37 @@ namespace GeneticAlgorithmCalculator.Services
             return model;
         }
 
+        private List<AlgorithmResultModel> GetResults(int generation)
+        {
+            var model = new List<AlgorithmResultModel>();
+            for (int i = 1; i <= _parameters.PopulationSize; i++)
+            {
+                model.Add(new AlgorithmResultModel()
+                {
+                    Generation = generation,
+                    Id = i,
+                    RealValue1 = _model.SecondStepModels[i - 1].RealValue,
+                    FuncResult1 = _model.SecondStepModels[i - 1].FunctionResult,
+                    Selection = _model.SecondStepModels[i - 1].AfterSelectionValue,
+                    Crossover = _model.ThirdStepModels[i - 1].GenerativeGeneration,
+                    Mutation = _model.ThirdStepModels[i - 1].MutatedGeneration,
+                    RealValue2 = _model.ThirdStepModels[i - 1].RealValue2,
+                    FuncResult2 = _model.ThirdStepModels[i - 1].FunctionResult
+                });
+            }
+            return model;
+        }
+
         public DataModel GetData(ParametersModel parameters)
         {
             _parameters = parameters;
             _model.FirstStepModels = GenerateFirstStep();
+            _model.ResultModel = new List<AlgorithmResultModel>();
             for (int i = 1; i <= _parameters.NumberOfGenerations; i++)
             {
                 _model.SecondStepModels = GenerateSecondStep(i == 1);
                 _model.ThirdStepModels = GenerateThirdStep();
+                _model.ResultModel.AddRange(GetResults(i));
             }
             return _model;
         }

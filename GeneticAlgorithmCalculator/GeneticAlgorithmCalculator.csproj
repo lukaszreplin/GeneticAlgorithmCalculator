@@ -69,6 +69,7 @@
     <Compile Include="Converters\ZeroToEmptyStringConverter.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Models\AlgorithmFirstStepModel.cs" />
+    <Compile Include="Models\AlgorithmResultModel.cs" />
     <Compile Include="Models\AlgorithmThirdStepModel.cs" />
     <Compile Include="Models\AlgorithmSecondStepModel.cs" />
     <Compile Include="Models\DataModel.cs" />

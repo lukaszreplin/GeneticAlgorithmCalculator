@@ -52,7 +52,7 @@
             </Grid>
         </GroupBox>
         <GroupBox Height="386" Margin="10,132,21,0" VerticalAlignment="Top" Header="Results">
-            <TabControl Height="352" Margin="0,10,-2,0" VerticalAlignment="Top" SelectedIndex="2">
+            <TabControl Height="352" Margin="0,10,-2,0" VerticalAlignment="Top" SelectedIndex="3">
                 <TabItem Header="Convert types">
                     <Grid Background="#FFE5E5E5">
                         <DataGrid Height="324" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True"
@@ -158,6 +158,46 @@
                                 <DataGridTextColumn MinWidth="80"
                                                     Binding="{Binding FunctionResult}"
                                                     Header="Value of f(x)" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Result tab">
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="14*" />
+                            <ColumnDefinition Width="237*" />
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.ColumnSpan="2" Height="324" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True"
+                                  ItemsSource="{Binding ResultModel}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn MinWidth="15"
+                                                    Binding="{Binding Generation}"
+                                                    Header="Generation" />
+                                <DataGridTextColumn MinWidth="35"
+                                                    Binding="{Binding Id}"
+                                                    Header="Lp" />
+                                <DataGridTextColumn MinWidth="60"
+                                                    Binding="{Binding RealValue1}"
+                                                    Header="x real" />
+                                <DataGridTextColumn MinWidth="80"
+                                                    Binding="{Binding FuncResult1}"
+                                                    Header="Function result" />
+                                <DataGridTextColumn MinWidth="80"
+                                                    Binding="{Binding Selection}"
+                                                    Header="Selection" />
+                                <DataGridTextColumn MinWidth="50"
+                                                    Binding="{Binding Crossover}"
+                                                    Header="Crossover" />
+                                <DataGridTextColumn MinWidth="80"
+                                                    Binding="{Binding Mutation}"
+                                                    Header="Mutation" />
+                                <DataGridTextColumn MinWidth="80"
+                                                    Binding="{Binding RealValue2}"
+                                                    Header="x real 2" />
+                                <DataGridTextColumn MinWidth="65"
+                                                    Binding="{Binding FuncResult2}"
+                                                    Header="Function result 2" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

@@ -14,5 +14,7 @@ namespace GeneticAlgorithmCalculator.Models
         public List<AlgorithmSecondStepModel> SecondStepModels { get; set; }
 
         public List<AlgorithmThirdStepModel> ThirdStepModels { get; set; }
+
+        public List<AlgorithmResultModel> ResultModel { get; set; }
     }
 }
