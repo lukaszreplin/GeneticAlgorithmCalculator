@@ -15,5 +15,7 @@ namespace GeneticAlgorithmCalculator.Contracts
         List<AlgorithmSecondStepModel> GenerateSecondStep(bool firstSelection);
 
         List<AlgorithmThirdStepModel> GenerateThirdStep();
+
+        ChartModel GetChartModel();
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="Models\AlgorithmResultModel.cs" />
     <Compile Include="Models\AlgorithmThirdStepModel.cs" />
     <Compile Include="Models\AlgorithmSecondStepModel.cs" />
+    <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\DataModel.cs" />
     <Compile Include="Models\Enums\FunctionType.cs" />
     <Compile Include="Models\ParametersModel.cs" />
@@ -108,6 +109,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf">
+      <Version>0.9.7</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Unity" Version="7.1.0.431&#xD;" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

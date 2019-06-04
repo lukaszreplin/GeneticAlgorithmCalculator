@@ -1,5 +1,6 @@
-﻿<Window x:Class="GeneticAlgorithmCalculator.Views.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:GeneticAlgorithmCalculator.Converters" xmlns:prism="http://prismlibrary.com/"
-        Title="Genetic Algorithm Calculator" Width="1099" Height="608" prism:ViewModelLocator.AutoWireViewModel="True" ResizeMode="CanMinimize">
+﻿<Window x:Class="GeneticAlgorithmCalculator.Views.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:GeneticAlgorithmCalculator.Converters" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:prism="http://prismlibrary.com/" Title="Genetic Algorithm Calculator" Width="1099" Height="608" prism:ViewModelLocator.AutoWireViewModel="True"
+        ResizeMode="CanMinimize">
     <Window.Resources>
         <local:ZeroToEmptyStringConverter x:Key="ZeroToEmptyStringConverter" />
     </Window.Resources>
@@ -186,6 +187,11 @@
                                                     Header="%" />
                             </DataGrid.Columns>
                         </DataGrid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Result table">
+                    <Grid>
+                        <lvc:CartesianChart Series="{Binding SeriesCollection}" />
                     </Grid>
                 </TabItem>
             </TabControl>

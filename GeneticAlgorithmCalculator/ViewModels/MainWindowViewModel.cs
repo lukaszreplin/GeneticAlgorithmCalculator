@@ -1,10 +1,13 @@
 ﻿using GeneticAlgorithmCalculator.Contracts;
 using GeneticAlgorithmCalculator.Extensions;
 using GeneticAlgorithmCalculator.Models;
+using LiveCharts;
+using LiveCharts.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GeneticAlgorithmCalculator.ViewModels
 {
@@ -12,12 +15,20 @@ namespace GeneticAlgorithmCalculator.ViewModels
     {
         private IGeneratorService _generator;
         private DataModel model;
+        private ChartModel _chartModel;
 
         private ParametersModel _parameters;
         public ParametersModel Parameters
         {
             get { return _parameters; }
             set { SetProperty(ref _parameters, value); }
+        }
+
+        private SeriesCollection seriesCollection;
+        public SeriesCollection SeriesCollection
+        {
+            get { return seriesCollection; }
+            set { SetProperty(ref seriesCollection, value); }
         }
 
         private ICollection<PrecisionModel> _precisions;
@@ -84,6 +95,37 @@ namespace GeneticAlgorithmCalculator.ViewModels
             SecondStepDataModel = model.SecondStepModels.ToObservableCollection();
             ThirdStepDataModel = model.ThirdStepModels.ToObservableCollection();
             ResultModel = model.ResultModel.ToObservableCollection();
+            _chartModel = _generator.GetChartModel();
+            ChartValues<double> minChartValues = new ChartValues<double>();
+            ChartValues<double> maxChartValues = new ChartValues<double>();
+            ChartValues<double> avgChartValues = new ChartValues<double>();
+            foreach (var min in _chartModel.Mins)
+            {
+                minChartValues.Add(min);
+            }
+            foreach (var avg in _chartModel.Avgs)
+            {
+                avgChartValues.Add(avg);
+            }
+            foreach (var max in _chartModel.Maxs)
+            {
+                maxChartValues.Add(max);
+            }
+            SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Values = minChartValues
+                },
+                new LineSeries
+                {
+                    Values = avgChartValues
+                },
+                new LineSeries
+                {
+                    Values = maxChartValues
+                }
+            };
         }
 
         private void InitializeData()
@@ -104,6 +146,7 @@ namespace GeneticAlgorithmCalculator.ViewModels
                 new PrecisionModel() { Label = "0,01", Value = 0.01, IntValue = 2 },
                 new PrecisionModel() { Label = "0,1", Value = 0.1, IntValue = 1 }
             };
+            SeriesCollection = new SeriesCollection();
         }
     }
 }

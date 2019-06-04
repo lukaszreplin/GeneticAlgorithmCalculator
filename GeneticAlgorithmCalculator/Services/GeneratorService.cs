@@ -15,14 +15,17 @@ namespace GeneticAlgorithmCalculator.Services
         private INumberConverter _converter;
         private DataModel _model;
         private double EliteNumber;
+        private ChartModel _chartModel;
         public GeneratorService(INumberConverter converter)
         {
             _converter = converter;
             _model = new DataModel();
+            
         }
 
         public List<AlgorithmFirstStepModel> GenerateFirstStep()
         {
+            _chartModel = new ChartModel();
             var model = new List<AlgorithmFirstStepModel>();
             _converter.SetParameters(_parameters);
             var generatedNumbers = GetRandomNumbers(_parameters.RangeFrom, _parameters.RangeTo, _parameters.PopulationSize, _parameters.Precision.IntValue);
@@ -188,6 +191,9 @@ namespace GeneticAlgorithmCalculator.Services
                 item.RealValue2 = _converter.IntToRealConvert(_converter.BinaryToIntConvert(item.MutatedGeneration));
                 item.FunctionResult = GetFunctionResult(item.RealValue2);
             }
+            _chartModel.Mins.Add(model.Min(_ => _.FunctionResult));
+            _chartModel.Maxs.Add(model.Max(_ => _.FunctionResult));
+            _chartModel.Avgs.Add(model.Average(_ => _.FunctionResult));
             return model;
         }
 
@@ -222,6 +228,11 @@ namespace GeneticAlgorithmCalculator.Services
             }
             _model.ResultModel = GetResults();
             return _model;
+        }
+
+        public ChartModel GetChartModel()
+        {
+            return _chartModel;
         }
 
         private List<double> GetRandomNumbers(float from, float to, int count, int precision)
