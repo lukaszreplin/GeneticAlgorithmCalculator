@@ -30,4 +30,24 @@ namespace GeneticAlgorithmCalculator.Models
 
         public double FunctionResult { get; set; }
     }
+
+    public class ThirdModelComparer : IEqualityComparer<AlgorithmThirdStepModel>
+    {
+        public bool Equals(AlgorithmThirdStepModel x, AlgorithmThirdStepModel y)
+        {
+            if (object.ReferenceEquals(x, y)) return true;
+
+            if (object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                return false;
+
+            return x.FunctionResult == y.FunctionResult;
+        }
+
+        public int GetHashCode(AlgorithmThirdStepModel obj)
+        {
+            if (obj is null) return 0;
+
+            return obj.RealValue2.GetHashCode();
+        }
+    }
 }

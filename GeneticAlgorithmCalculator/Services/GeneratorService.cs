@@ -191,21 +191,23 @@ namespace GeneticAlgorithmCalculator.Services
             return model;
         }
 
-        private List<AlgorithmResultModel> GetResults(int generation)
+        private List<AlgorithmResultModel> GetResults()
         {
             var model = new List<AlgorithmResultModel>();
-            for (int i = 1; i <= _parameters.PopulationSize; i++)
+            var uniqueValues = _model.ThirdStepModels.Distinct(new ThirdModelComparer()).ToList();
+            for (int i = 1; i <= uniqueValues.Count(); i++)
             {
                 model.Add(new AlgorithmResultModel()
                 {
                     Id = i,
-                    RealValue = _model.ThirdStepModels[i - 1].RealValue2,
-                    BinaryValue = _converter.IntToBinaryConvert(_converter.RealToIntConvert(_model.ThirdStepModels[i - 1].RealValue2)),
-                    FuncResult = _model.ThirdStepModels[i - 1].FunctionResult,
-                    Percent = 20
+                    RealValue = uniqueValues[i - 1].RealValue2,
+                    BinaryValue = _converter.IntToBinaryConvert(_converter.RealToIntConvert(uniqueValues[i - 1].RealValue2)),
+                    FuncResult = uniqueValues[i - 1].FunctionResult,
+                    Percent = (double)_model.ThirdStepModels.Count(_ => _.FunctionResult == uniqueValues[i - 1].FunctionResult) /
+                    (double)_parameters.PopulationSize*100.0
                 });
             }
-            return model;
+            return model.OrderByDescending(_ => _.Percent).ToList();
         }
 
         public DataModel GetData(ParametersModel parameters)
@@ -217,9 +219,8 @@ namespace GeneticAlgorithmCalculator.Services
             {
                 _model.SecondStepModels = GenerateSecondStep(i == 1);
                 _model.ThirdStepModels = GenerateThirdStep();
-                
             }
-            _model.ResultModel.AddRange(GetResults(_parameters.NumberOfGenerations));
+            _model.ResultModel = GetResults();
             return _model;
         }
 

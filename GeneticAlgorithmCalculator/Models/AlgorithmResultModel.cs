@@ -19,4 +19,6 @@ namespace GeneticAlgorithmCalculator.Models
         public double Percent { get; set; }
 
     }
+
+    
 }
