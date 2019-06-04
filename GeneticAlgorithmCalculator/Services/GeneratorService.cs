@@ -14,7 +14,7 @@ namespace GeneticAlgorithmCalculator.Services
         private ParametersModel _parameters;
         private INumberConverter _converter;
         private DataModel _model;
-
+        private double EliteNumber;
         public GeneratorService(INumberConverter converter)
         {
             _converter = converter;
@@ -53,32 +53,14 @@ namespace GeneticAlgorithmCalculator.Services
                     _model.FirstStepModels[i - 1].RealValue : _model.ThirdStepModels[i-1].RealValue2,
                     FunctionResult = (firstSelection) ? 
                     _model.FirstStepModels[i - 1].FunctionResult : _model.ThirdStepModels[i - 1].FunctionResult,
-                    FitnessFunctionResult = (_model.FirstStepModels[i - 1].FunctionResult - GetMinValue()) + _parameters.Precision.Value,
+                    FitnessFunctionResult = (firstSelection) ? (_model.FirstStepModels[i - 1].FunctionResult - GetMinValue(firstSelection)) + _parameters.Precision.Value :
+                    (_model.ThirdStepModels[i - 1].RealValue2 - GetMinValue(firstSelection)) + _parameters.Precision.Value,
                 });
             }
-            if (firstSelection)
+            if (_parameters.Elitism)
             {
-                _model.Elite = model.OrderByDescending(_ => _.FunctionResult)
-                .Take(_parameters.ElitismLevel).Select(_ => _.RealValue).ToList();
+                var maxOfCurrent = model.Max(_ => _.RealValue);
             }
-            else
-            {
-                var tempElite = _model.Elite;
-                _model.Elite = null;
-                foreach (var eliteItem in tempElite.OrderBy(_ => _).ToList())
-                {
-                    var funcResult = GetFunctionResult(eliteItem);
-                    if (model.Any(_ => _.FunctionResult != funcResult))
-                    {
-                        var idMin = model.OrderBy(_ => _.FunctionResult).First().Id;
-                        model[idMin - 1].RealValue = eliteItem;
-                        model[idMin - 1].FunctionResult = funcResult;
-                    }
-                }
-                _model.Elite = model.OrderByDescending(_ => _.FunctionResult)
-                .Take(_parameters.ElitismLevel).Select(_ => _.RealValue).ToList();
-            }
-            
             var fitnessSum = GetSumOfFitness(model);
             for (int i = 1; i <= _parameters.PopulationSize; i++)
             {
@@ -163,8 +145,8 @@ namespace GeneticAlgorithmCalculator.Services
                             var firstPart2 = item2.ChoosenParents.Substring(0, item2.CutPoint);
                             var secondPart1 = item.ChoosenParents.Substring(item.CutPoint, item.ChoosenParents.Length - item.CutPoint);
                             var secondPart2 = item2.ChoosenParents.Substring(item2.CutPoint, item2.ChoosenParents.Length - item2.CutPoint);
-                            item.Children = secondPart1 + firstPart2;
-                            item2.Children = secondPart2 + firstPart1;
+                            item.Children = firstPart1 + secondPart2;
+                            item2.Children = firstPart2 + secondPart1;
                             break;
                         }
                     }
@@ -216,15 +198,11 @@ namespace GeneticAlgorithmCalculator.Services
             {
                 model.Add(new AlgorithmResultModel()
                 {
-                    Generation = generation,
                     Id = i,
-                    RealValue1 = _model.SecondStepModels[i - 1].RealValue,
-                    FuncResult1 = _model.SecondStepModels[i - 1].FunctionResult,
-                    Selection = _model.SecondStepModels[i - 1].AfterSelectionValue,
-                    Crossover = _model.ThirdStepModels[i - 1].GenerativeGeneration,
-                    Mutation = _model.ThirdStepModels[i - 1].MutatedGeneration,
-                    RealValue2 = _model.ThirdStepModels[i - 1].RealValue2,
-                    FuncResult2 = _model.ThirdStepModels[i - 1].FunctionResult
+                    RealValue = _model.ThirdStepModels[i - 1].RealValue2,
+                    BinaryValue = _converter.IntToBinaryConvert(_converter.RealToIntConvert(_model.ThirdStepModels[i - 1].RealValue2)),
+                    FuncResult = _model.ThirdStepModels[i - 1].FunctionResult,
+                    Percent = 20
                 });
             }
             return model;
@@ -239,8 +217,9 @@ namespace GeneticAlgorithmCalculator.Services
             {
                 _model.SecondStepModels = GenerateSecondStep(i == 1);
                 _model.ThirdStepModels = GenerateThirdStep();
-                _model.ResultModel.AddRange(GetResults(i));
+                
             }
+            _model.ResultModel.AddRange(GetResults(_parameters.NumberOfGenerations));
             return _model;
         }
 
@@ -296,17 +275,16 @@ namespace GeneticAlgorithmCalculator.Services
             return max;
         }
 
-        private double GetMinValue()
+        private double GetMinValue(bool firstSelection = true)
         {
-            double min = _parameters.RangeTo;
-            foreach (AlgorithmFirstStepModel item in _model.FirstStepModels)
+            if (firstSelection)
             {
-                if (item.FunctionResult < min)
-                {
-                    min = item.FunctionResult;
-                }
+                return _model.FirstStepModels.Min(_ => _.FunctionResult);
             }
-            return min;
+            else
+            {
+                return _model.ThirdStepModels.Min(_ => _.RealValue2);
+            }
         }
 
         private double GetProbability()

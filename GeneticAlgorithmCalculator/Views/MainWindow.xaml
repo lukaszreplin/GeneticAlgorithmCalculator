@@ -44,11 +44,9 @@
                          PreviewTextInput="DecimalValidationTextBox"
                          Text="{Binding Parameters.MutationProbability}"
                          TextWrapping="Wrap" />
-                <Label Width="62" Margin="617,49,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Elitism level" />
-                <TextBox Width="65" Height="23" Margin="684,52,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                         PreviewTextInput="NumberValidationTextBox"
-                         Text="{Binding Parameters.ElitismLevel}"
-                         TextWrapping="Wrap" />
+                <Label Width="50" Margin="617,49,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Elitism" />
+                <CheckBox Margin="667,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                          IsChecked="{Binding Parameters.Elitism}" />
             </Grid>
         </GroupBox>
         <GroupBox Height="386" Margin="10,132,21,0" VerticalAlignment="Top" Header="Results">
@@ -162,7 +160,7 @@
                         </DataGrid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Result tab">
+                <TabItem Header="Result data">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="14*" />
@@ -171,33 +169,21 @@
                         <DataGrid Grid.ColumnSpan="2" Height="324" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True"
                                   ItemsSource="{Binding ResultModel}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn MinWidth="15"
-                                                    Binding="{Binding Generation}"
-                                                    Header="Generation" />
                                 <DataGridTextColumn MinWidth="35"
                                                     Binding="{Binding Id}"
                                                     Header="Lp" />
-                                <DataGridTextColumn MinWidth="60"
-                                                    Binding="{Binding RealValue1}"
+                                <DataGridTextColumn MinWidth="100"
+                                                    Binding="{Binding RealValue}"
                                                     Header="x real" />
-                                <DataGridTextColumn MinWidth="80"
-                                                    Binding="{Binding FuncResult1}"
+                                <DataGridTextColumn MinWidth="100"
+                                                    Binding="{Binding BinaryValue}"
+                                                    Header="x bin" />
+                                <DataGridTextColumn MinWidth="100"
+                                                    Binding="{Binding FuncResult}"
                                                     Header="Function result" />
-                                <DataGridTextColumn MinWidth="80"
-                                                    Binding="{Binding Selection}"
-                                                    Header="Selection" />
-                                <DataGridTextColumn MinWidth="50"
-                                                    Binding="{Binding Crossover}"
-                                                    Header="Crossover" />
-                                <DataGridTextColumn MinWidth="80"
-                                                    Binding="{Binding Mutation}"
-                                                    Header="Mutation" />
-                                <DataGridTextColumn MinWidth="80"
-                                                    Binding="{Binding RealValue2}"
-                                                    Header="x real 2" />
-                                <DataGridTextColumn MinWidth="65"
-                                                    Binding="{Binding FuncResult2}"
-                                                    Header="Function result 2" />
+                                <DataGridTextColumn MinWidth="100"
+                                                    Binding="{Binding Percent}"
+                                                    Header="%" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

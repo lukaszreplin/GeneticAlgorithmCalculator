@@ -96,7 +96,7 @@ namespace GeneticAlgorithmCalculator.ViewModels
                 NumberOfGenerations = 1,
                 CrossoverProbability = 0.75f,
                 MutationProbability = 0.005f,
-                ElitismLevel = 0
+                Elitism = false
             };
             Precisions = new List<PrecisionModel>()
             {

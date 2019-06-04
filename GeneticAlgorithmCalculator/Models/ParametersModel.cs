@@ -20,7 +20,7 @@ namespace GeneticAlgorithmCalculator.Models
 
         public float MutationProbability { get; set; }
 
-        public int ElitismLevel { get; set; }
+        public bool Elitism { get; set; }
 
         public int NumberOfGenerations { get; set; }
     }
