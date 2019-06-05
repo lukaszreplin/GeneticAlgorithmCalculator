@@ -115,15 +115,21 @@ namespace GeneticAlgorithmCalculator.ViewModels
             {
                 new LineSeries
                 {
-                    Values = minChartValues
+                    Values = minChartValues,
+                    Title = "MIN",
+                    Name = "MIN"
                 },
                 new LineSeries
                 {
-                    Values = avgChartValues
+                    Values = avgChartValues,
+                    Title = "AVG",
+                    Name = "AVG"
                 },
                 new LineSeries
                 {
-                    Values = maxChartValues
+                    Values = maxChartValues,
+                    Title = "MAX",
+                    Name = "MAX"
                 }
             };
         }

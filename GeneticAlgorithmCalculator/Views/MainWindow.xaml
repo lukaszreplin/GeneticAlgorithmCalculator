@@ -189,9 +189,9 @@
                         </DataGrid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Result table">
+                <TabItem Header="Result chart">
                     <Grid>
-                        <lvc:CartesianChart Series="{Binding SeriesCollection}" />
+                        <lvc:CartesianChart LegendLocation="Left" Series="{Binding SeriesCollection}" />
                     </Grid>
                 </TabItem>
             </TabControl>
