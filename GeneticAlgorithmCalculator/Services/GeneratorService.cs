@@ -14,7 +14,7 @@ namespace GeneticAlgorithmCalculator.Services
         private ParametersModel _parameters;
         private INumberConverter _converter;
         private DataModel _model;
-        private double EliteNumber;
+        private double EliteNumber = 0;
         private ChartModel _chartModel;
         public GeneratorService(INumberConverter converter)
         {
@@ -60,10 +60,9 @@ namespace GeneticAlgorithmCalculator.Services
                     (_model.ThirdStepModels[i - 1].RealValue2 - GetMinValue(firstSelection)) + _parameters.Precision.Value,
                 });
             }
-            if (_parameters.Elitism)
-            {
-                var maxOfCurrent = model.Max(_ => _.RealValue);
-            }
+
+            EliteNumber = model.Max(_ => _.RealValue);
+
             var fitnessSum = GetSumOfFitness(model);
             for (int i = 1; i <= _parameters.PopulationSize; i++)
             {
@@ -132,6 +131,8 @@ namespace GeneticAlgorithmCalculator.Services
                     }
                 }
             }
+
+            #region CROSSOVER
             foreach (var item in model)
             {
                 if (item.ChoosenParents != string.Empty && string.IsNullOrEmpty(item.Children))
@@ -159,6 +160,9 @@ namespace GeneticAlgorithmCalculator.Services
                     }
                 }
             }
+            #endregion
+
+
             foreach (var item in model)
             {
                 if (string.IsNullOrEmpty(item.Children))
@@ -191,6 +195,27 @@ namespace GeneticAlgorithmCalculator.Services
                 item.RealValue2 = _converter.IntToRealConvert(_converter.BinaryToIntConvert(item.MutatedGeneration));
                 item.FunctionResult = GetFunctionResult(item.RealValue2);
             }
+
+            #region ELITISM
+            if (_parameters.Elitism)
+            {
+                if (!model.Any(_ => _.RealValue2 == EliteNumber))
+                {
+                    while (true)
+                    {
+                        var positionToInsert = GetRandomInt(0, _parameters.PopulationSize - 1, randomGenerator);
+                        if (model[positionToInsert].RealValue2 <= EliteNumber)
+                        {
+                            model[positionToInsert].RealValue2 = EliteNumber;
+                            model[positionToInsert].FunctionResult = GetFunctionResult(EliteNumber);
+                            break;
+                        }
+                    }
+                    
+                }
+            }
+            #endregion
+
             _chartModel.Mins.Add(model.Min(_ => _.FunctionResult));
             _chartModel.Maxs.Add(model.Max(_ => _.FunctionResult));
             _chartModel.Avgs.Add(model.Average(_ => _.FunctionResult));
