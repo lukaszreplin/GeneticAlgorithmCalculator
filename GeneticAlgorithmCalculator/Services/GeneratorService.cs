@@ -3,6 +3,7 @@ using GeneticAlgorithmCalculator.Models;
 using GeneticAlgorithmCalculator.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace GeneticAlgorithmCalculator.Services
         private DataModel _model;
         private double EliteNumber = 0;
         private ChartModel _chartModel;
+        private static string filename = $"results_{DateTime.Now.ToString("dd/MM/yyyy_HH/mm/ss")}.txt";
+        private static string filePath = Path.Combine("RESULTS", filename);
         public GeneratorService(INumberConverter converter)
         {
             _converter = converter;
@@ -57,13 +60,13 @@ namespace GeneticAlgorithmCalculator.Services
                     FunctionResult = (firstSelection) ? 
                     _model.FirstStepModels[i - 1].FunctionResult : _model.ThirdStepModels[i - 1].FunctionResult,
                     FitnessFunctionResult = (firstSelection) ? (_model.FirstStepModels[i - 1].FunctionResult - GetMinValue(firstSelection)) + _parameters.Precision.Value :
-                    (_model.ThirdStepModels[i - 1].RealValue2 - GetMinValue(firstSelection)) + _parameters.Precision.Value,
+                    _model.ThirdStepModels[i - 1].RealValue2 - GetMinValue(firstSelection) + _parameters.Precision.Value
                 });
             }
 
             EliteNumber = model.Max(_ => _.RealValue);
 
-            var fitnessSum = GetSumOfFitness(model);
+            var fitnessSum =  model.Sum(_ => _.FitnessFunctionResult);
             for (int i = 1; i <= _parameters.PopulationSize; i++)
             {
                 model[i - 1].Probability = model[i - 1].FitnessFunctionResult / fitnessSum;
@@ -243,13 +246,24 @@ namespace GeneticAlgorithmCalculator.Services
 
         public DataModel GetData(ParametersModel parameters)
         {
+            
             _parameters = parameters;
+            CreateFile();
+                File.WriteAllLines(filePath, new List<string>() { $"Parameters: <{_parameters.RangeFrom};{_parameters.RangeTo}>, N = {_parameters.PopulationSize}, " +
+                $"Number of generations: {_parameters.NumberOfGenerations}, Crossover prob.: {_parameters.CrossoverProbability}, " +
+                $"Mutation prob.: {_parameters.MutationProbability}" });
             _model.FirstStepModels = GenerateFirstStep();
             _model.ResultModel = new List<AlgorithmResultModel>();
             for (int i = 1; i <= _parameters.NumberOfGenerations; i++)
             {
+                File.AppendAllLines(filePath, new List<string>() { $"Generation {i}" });
                 _model.SecondStepModels = GenerateSecondStep(i == 1);
                 _model.ThirdStepModels = GenerateThirdStep();
+                foreach (var item in _model.ThirdStepModels)
+                {
+                    File.AppendAllLines(filePath, new List<string>() { $"{item.Id}   {item.RealValue2}   " +
+                        $"{_converter.IntToBinaryConvert(_converter.RealToIntConvert(item.RealValue2))}   {item.FunctionResult}" });
+                }
             }
             _model.ResultModel = GetResults();
             return _model;
@@ -356,6 +370,14 @@ namespace GeneticAlgorithmCalculator.Services
         private double GetFunctionResult(double input)
         {
             return (input % 1) * (Math.Cos(20 * Math.PI * input) - Math.Sin(input));
+        }
+
+        private void CreateFile()
+        {
+            Directory.CreateDirectory("./RESULTS");
+            
+            var res = File.Create(filePath);
+            res.Close();
         }
         
     }
