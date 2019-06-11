@@ -67,6 +67,7 @@
     <Compile Include="Contracts\IGeneratorService.cs" />
     <Compile Include="Contracts\INumberConverter.cs" />
     <Compile Include="Converters\ZeroToEmptyStringConverter.cs" />
+    <Compile Include="ErrorHandler.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Models\AlgorithmFirstStepModel.cs" />
     <Compile Include="Models\AlgorithmResultModel.cs" />

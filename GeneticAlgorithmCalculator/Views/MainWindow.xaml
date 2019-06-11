@@ -196,6 +196,17 @@
                 </TabItem>
             </TabControl>
         </GroupBox>
+        <Label Width="47" Margin="10,523,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Testy" />
+        <CheckBox Margin="62,529,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content=""
+                  IsChecked="{Binding Tests}" />
+        <Label Margin="87,523,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="N" />
+        <Label Width="71" Margin="111,523,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Content="{Binding NNumber}" />
+        <Label Margin="187,523,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="T" RenderTransformOrigin="-0.562,0.615" />
+        <Label Width="71" Margin="208,523,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Content="{Binding TNumber}" />
+        <Label Width="100" Margin="841,519,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Content="{Binding ExecutionTime}" />
 
     </Grid>
 </Window>

@@ -9,7 +9,7 @@ namespace GeneticAlgorithmCalculator.Contracts
 {
     public interface IGeneratorService
     {
-        DataModel GetData(ParametersModel parameters);
+        DataModel GetData(ParametersModel parameters, bool test = false);
         List<AlgorithmFirstStepModel> GenerateFirstStep();
 
         List<AlgorithmSecondStepModel> GenerateSecondStep(bool firstSelection);

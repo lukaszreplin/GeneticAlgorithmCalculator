@@ -14,6 +14,9 @@ namespace GeneticAlgorithmCalculator
     {
         protected override Window CreateShell()
         {
+            DispatcherUnhandledException
+                += ErrorHandler.HandleException;
+
             return Container.Resolve<MainWindow>();
         }
 

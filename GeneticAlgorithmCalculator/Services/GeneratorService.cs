@@ -17,8 +17,10 @@ namespace GeneticAlgorithmCalculator.Services
         private DataModel _model;
         private double EliteNumber = 0;
         private ChartModel _chartModel;
-        private static string filename = $"results_{DateTime.Now.ToString("dd/MM/yyyy_HH/mm/ss")}.txt";
-        private static string filePath = Path.Combine("RESULTS", filename);
+        private static string filename1 = $"results1_{DateTime.Now.ToString("dd/MM/yyyy_HH/mm/ss")}.txt";
+        private static string filename2 = $"results2_{DateTime.Now.ToString("dd/MM/yyyy_HH/mm/ss")}.txt";
+        private static string filePath1 = Path.Combine("RESULTS", filename1);
+        private static string filePath2 = Path.Combine("RESULTS", filename2);
         public GeneratorService(INumberConverter converter)
         {
             _converter = converter;
@@ -244,28 +246,52 @@ namespace GeneticAlgorithmCalculator.Services
             return model.OrderByDescending(_ => _.Percent).ToList();
         }
 
-        public DataModel GetData(ParametersModel parameters)
+        public DataModel GetData(ParametersModel parameters, bool test = false)
         {
             
             _parameters = parameters;
-            CreateFile();
-                File.WriteAllLines(filePath, new List<string>() { $"Parameters: <{_parameters.RangeFrom};{_parameters.RangeTo}>, N = {_parameters.PopulationSize}, " +
+            if (!test)
+            {
+                CreateFile();
+                File.WriteAllLines(filePath1, new List<string>() { $"Parameters: <{_parameters.RangeFrom};{_parameters.RangeTo}>, N = {_parameters.PopulationSize}, " +
                 $"Number of generations: {_parameters.NumberOfGenerations}, Crossover prob.: {_parameters.CrossoverProbability}, " +
                 $"Mutation prob.: {_parameters.MutationProbability}" });
+                File.WriteAllLines(filePath2, new List<string>() { $"Parameters: <{_parameters.RangeFrom};{_parameters.RangeTo}>, N = {_parameters.PopulationSize}, " +
+                $"Number of generations: {_parameters.NumberOfGenerations}, Crossover prob.: {_parameters.CrossoverProbability}, " +
+                $"Mutation prob.: {_parameters.MutationProbability}" });
+            }
             _model.FirstStepModels = GenerateFirstStep();
             _model.ResultModel = new List<AlgorithmResultModel>();
             for (int i = 1; i <= _parameters.NumberOfGenerations; i++)
             {
-                File.AppendAllLines(filePath, new List<string>() { $"Generation {i}" });
+                if (!test)
+                 File.AppendAllLines(filePath1, new List<string>() { $"Generation {i}" });
                 _model.SecondStepModels = GenerateSecondStep(i == 1);
                 _model.ThirdStepModels = GenerateThirdStep();
-                foreach (var item in _model.ThirdStepModels)
+                if (!test)
                 {
-                    File.AppendAllLines(filePath, new List<string>() { $"{item.Id}   {item.RealValue2}   " +
+                    foreach (var item in _model.ThirdStepModels)
+                    {
+                        File.AppendAllLines(filePath1, new List<string>() { $"{item.Id}   {item.RealValue2}   " +
                         $"{_converter.IntToBinaryConvert(_converter.RealToIntConvert(item.RealValue2))}   {item.FunctionResult}" });
+                    }
                 }
             }
             _model.ResultModel = GetResults();
+            if (!test)
+            {
+                File.AppendAllLines(filePath2, new List<string>()
+                {
+                    "Lp   f(min)   f(avg)   f(max)"
+                });
+                for (int i = 0; i < _parameters.NumberOfGenerations; i++)
+                {
+                    File.AppendAllLines(filePath2, new List<string>()
+                {
+                    $"{i+1}   {_chartModel.Mins[i]}   {_chartModel.Avgs[i]}   {_chartModel.Maxs[i]}"
+                });
+                }
+            }
             return _model;
         }
 
@@ -375,10 +401,12 @@ namespace GeneticAlgorithmCalculator.Services
         private void CreateFile()
         {
             Directory.CreateDirectory("./RESULTS");
-            
-            var res = File.Create(filePath);
-            res.Close();
+
+            var res1 = File.Create(filePath1);
+            var res2 = File.Create(filePath2);
+            res1.Close();
+            res2.Close();
         }
-        
+
     }
 }
